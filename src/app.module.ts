@@ -30,13 +30,24 @@ import { AccessTokenGuard } from './auth/guards/token.guard';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env[EnvKeys.DB_HOST],
-      port: parseInt(process.env[EnvKeys.DB_PORT]),
-      username: process.env[EnvKeys.DB_USERNAME],
-      password: process.env[EnvKeys.DB_PASSWORD],
-      database: process.env[EnvKeys.DB_DATABASE],
+      ...(process.env[EnvKeys.SUPABASE_DB_URL]
+        ? {
+            url: process.env[EnvKeys.SUPABASE_DB_URL],
+            autoLoadEntities: true,
+            synchronize: false,
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          }
+        : {
+            host: process.env[EnvKeys.DB_HOST],
+            port: parseInt(process.env[EnvKeys.DB_PORT]),
+            username: process.env[EnvKeys.DB_USERNAME],
+            password: process.env[EnvKeys.DB_PASSWORD],
+            database: process.env[EnvKeys.DB_DATABASE],
+            synchronize: true,
+          }),
       entities: [__dirname + '/**/*.entity.{js,ts}'],
-      synchronize: true,
     }),
     UsersModule,
     AuthModule,

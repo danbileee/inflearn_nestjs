@@ -7,4 +7,5 @@ export const EnvKeys = {
   DB_USERNAME: 'DB_USERNAME',
   DB_PASSWORD: 'DB_PASSWORD',
   DB_DATABASE: 'DB_DATABASE',
+  SUPABASE_DB_URL: 'SUPABASE_DB_URL',
 } as const;
